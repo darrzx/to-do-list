@@ -8,7 +8,12 @@ const useTodos = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch('/api/HomeApi');
+        const response = await fetch('/api/HomeApi', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        });
     
         if (!response.ok) {
             throw new Error('Response error');
