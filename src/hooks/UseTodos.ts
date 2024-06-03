@@ -8,19 +8,15 @@ const useTodos = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch('/api/HomeApi', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-        });
+        const response = await fetch('/api/HomeApi');
     
         if (!response.ok) {
             throw new Error('Response error');
         }
-    
+
+        
         const data = await response.json();
-        setTodos(data);
+        setTodos(data.results);
       } catch (error) {
         console.error('Error fetching todos:', error);
       } finally {

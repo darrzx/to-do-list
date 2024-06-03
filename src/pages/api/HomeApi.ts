@@ -15,9 +15,7 @@ export default async function HomeApi(req: NextApiRequest, res: NextApiResponse)
             res.status(500).json({ error: 'Database error' });
             return;
           }
-
-          console.log(results);
-  
+            
           if (results.length > 0) {
             res.status(200).json({ results });
           } else {
