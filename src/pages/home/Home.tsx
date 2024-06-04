@@ -47,7 +47,7 @@ const Home = () => {
     }
   };
 
-  const handleDeleteTodo = async (id: number) => {
+  const handleDeleteTodo = async (deletedTodo: { id: number }) => {
     
     try {
       const response = await fetch(`/api/HomeApi`, {
@@ -55,8 +55,10 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(id)
+        body: JSON.stringify(deletedTodo)
       });
+      console.log(response);
+
       if (response.ok) {
         window.location.reload();
       } else {

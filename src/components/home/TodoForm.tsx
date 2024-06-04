@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 interface TodoFormProps {
   onCreateTodo: (newTodo: { title: string; content: string; deadline: Date }) => void;
   onUpdateTodo: (updatedTodo: Todo) => void;
-  onDeleteTodo: (id: number) => void;
+  onDeleteTodo: (deletedTodo: {id: number}) => void;
   mode: 'create' | 'update' | 'delete';
   existingTodo?: Todo | null;
 }
@@ -67,7 +67,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, onDelet
     e.preventDefault();
     
     try {
-      onDeleteTodo(existingTodo!.id);
+      onDeleteTodo({ id: existingTodo!.id });
     } catch (error) {
       console.error('Failed to delete todo');
     }

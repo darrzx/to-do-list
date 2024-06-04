@@ -76,7 +76,7 @@ export async function deleteTodo(req: NextApiRequest, res: NextApiResponse) {
     const connection = connectDB();
 
     const query =  'DELETE FROM todo WHERE id = ?';
-    const values = [id];
+    const values = id;
 
     await connection.query(query, values);
     connection.end();
