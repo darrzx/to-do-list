@@ -10,6 +10,7 @@ export default async function HomeApi(req: NextApiRequest, res: NextApiResponse)
   } else if (req.method === 'PATCH') {
     return updateTodo(req, res);
   } else if (req.method === 'DELETE') {
+    console.log("masuk")
     return deleteTodo(req, res);
   }
 

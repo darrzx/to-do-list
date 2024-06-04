@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react';
 interface TodoFormProps {
   onCreateTodo: (newTodo: { title: string; content: string; deadline: Date }) => void;
   onUpdateTodo: (updatedTodo: Todo) => void;
-  mode: 'create' | 'update';
+  onDeleteTodo: (id: number) => void;
+  mode: 'create' | 'update' | 'delete';
   existingTodo?: Todo | null;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, mode, existingTodo }) => {
+const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, onDeleteTodo, mode, existingTodo }) => {
   const [newTodo, setNewTodo] = useState({
     title: '',
     content: '',
@@ -48,11 +49,29 @@ const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, mode, e
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (mode === 'create') {
       onCreateTodo(newTodo);
     } else if (mode === 'update' && onUpdateTodo) {
       onUpdateTodo({ ...newTodo, id: existingTodo!.id });
+    } 
+
+    setNewTodo({
+      title: '',
+      content: '',
+      deadline: new Date()
+    });
+  };
+
+  const handleDelete = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      onDeleteTodo(existingTodo!.id);
+    } catch (error) {
+      console.error('Failed to delete todo');
     }
+
     setNewTodo({
       title: '',
       content: '',
@@ -61,21 +80,24 @@ const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, mode, e
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title:</label>
-        <input type="text" name="title" value={newTodo.title} onChange={handleInputChange} />
-      </div>
-      <div>
-        <label>Content:</label>
-        <input type="text" name="content" value={newTodo.content} onChange={handleInputChange} />
-      </div>
-      <div>
-        <label>Deadline:</label>
-        <input type="date" name="deadline" value={dateInString} onChange={handleInputChange} />
-      </div>
-      <button type="submit">{mode === 'create' ? 'Add Todo' : 'Update Todo'}</button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Title:</label>
+          <input type="text" name="title" value={newTodo.title} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Content:</label>
+          <input type="text" name="content" value={newTodo.content} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Deadline:</label>
+          <input type="date" name="deadline" value={dateInString} onChange={handleInputChange} />
+        </div>
+        <button type="submit">{mode === 'create' ? 'Add Todo' : 'Update Todo'}</button>
+      </form>
+      <button type="submit" onClick={handleDelete}>Delete Todo</button>
+    </>
   );
 };
 

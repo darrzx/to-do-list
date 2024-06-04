@@ -47,6 +47,26 @@ const Home = () => {
     }
   };
 
+  const handleDeleteTodo = async (id: number) => {
+    
+    try {
+      const response = await fetch(`/api/HomeApi`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+      });
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error('Failed to delete todo');
+      }
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
   const handleTodoClick = (todo: Todo) => {
     setCurrentTodo(todo);
   };
@@ -61,6 +81,7 @@ const Home = () => {
       <TodoForm 
         onCreateTodo={handleCreateTodo} 
         onUpdateTodo={handleUpdateTodo} 
+        onDeleteTodo={handleDeleteTodo}
         mode={currentTodo ? 'update' : 'create'} 
         existingTodo={currentTodo} 
       />
