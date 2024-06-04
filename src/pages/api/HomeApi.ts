@@ -1,6 +1,5 @@
-import connectDB from '@/utils/db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createTodo, getTodos, updateTodo } from './TodoApi';
+import { createTodo, deleteTodo, getTodos, updateTodo } from './TodoApi';
 
 export default async function HomeApi(req: NextApiRequest, res: NextApiResponse) {
 
@@ -10,6 +9,8 @@ export default async function HomeApi(req: NextApiRequest, res: NextApiResponse)
     return createTodo(req, res);
   } else if (req.method === 'PATCH') {
     return updateTodo(req, res);
+  } else if (req.method === 'DELETE') {
+    return deleteTodo(req, res);
   }
 
 }

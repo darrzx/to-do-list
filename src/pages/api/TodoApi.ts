@@ -53,8 +53,6 @@ export async function createTodo(req: NextApiRequest, res: NextApiResponse) {
 export async function updateTodo(req: NextApiRequest, res: NextApiResponse) {
   const { id, title, content, deadline } = req.body;
 
-  console.log("masuk sini");
-
   try {
     const connection = connectDB();
 
@@ -68,5 +66,24 @@ export async function updateTodo(req: NextApiRequest, res: NextApiResponse) {
   } catch (error) {
     console.error('Error updating todo:', error);
     res.status(500).json({ error: 'Failed to update todo' });
+  }
+}
+
+export async function deleteTodo(req: NextApiRequest, res: NextApiResponse) {
+  const { id } = req.body;
+
+  try {
+    const connection = connectDB();
+
+    const query =  'DELETE FROM todo WHERE id = ?';
+    const values = [id];
+
+    await connection.query(query, values);
+    connection.end();
+
+    res.status(200).json({ message: 'Todo deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting todo:', error);
+    res.status(500).json({ error: 'Failed to delete todo' });
   }
 }
