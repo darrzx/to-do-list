@@ -49,3 +49,24 @@ export async function createTodo(req: NextApiRequest, res: NextApiResponse) {
       res.status(500).json({ error: 'Failed to create todo' });
     }
 }
+
+export async function updateTodo(req: NextApiRequest, res: NextApiResponse) {
+  const { id, title, content, deadline } = req.body;
+
+  console.log("masuk sini");
+
+  try {
+    const connection = connectDB();
+
+    const query =  'UPDATE todo SET title = ?, content = ?, deadline = ? WHERE id = ?';
+    const values = [title, content, deadline, id];
+
+    await connection.query(query, values);
+    connection.end();
+
+    res.status(200).json({ message: 'Todo updated successfully' });
+  } catch (error) {
+    console.error('Error updating todo:', error);
+    res.status(500).json({ error: 'Failed to update todo' });
+  }
+}
