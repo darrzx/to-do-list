@@ -14,10 +14,16 @@ Second, run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Third, you can use these credentials for testing purposes:
+
+```bash
+email    : darren@gmail.com
+password : hai123
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result locally.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
 
 ## Deploy on Vercel
 
