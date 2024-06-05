@@ -1,5 +1,7 @@
 import { Todo } from '@/models/Todo';
+import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import styles from '@/styles/Home.module.css';
 
 interface TodoFormProps {
   onCreateTodo: (newTodo: { title: string; content: string; deadline: Date }) => void;
@@ -31,7 +33,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, onDelet
     const { name, value } = e.target;
 
     if (name === 'deadline') {
-      
       setDateInString(value);
       const date = new Date(value);
 
@@ -81,22 +82,36 @@ const TodoForm: React.FC<TodoFormProps> = ({ onCreateTodo, onUpdateTodo, onDelet
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.home_form_container}>
+          <TextField 
+            required 
+            type='text' 
+            id="title" 
+            label="Title" 
+            value={newTodo.title}
+            className={styles.home_form_input}
+            onChange={(e) => setNewTodo((prevTodo) => ({ ...prevTodo, title: e.target.value }))}/>
+          <TextField 
+            required 
+            type='text' 
+            id="content" 
+            label="Description" 
+            value={newTodo.content}
+            className={styles.home_form_input}
+            onChange={(e) => setNewTodo((prevTodo) => ({ ...prevTodo, content: e.target.value }))}/>
         <div>
-          <label>Title:</label>
-          <input type="text" name="title" value={newTodo.title} onChange={handleInputChange} />
+          <input type="date" name="deadline" value={dateInString} onChange={handleInputChange} className={styles.home_form_date_input}/>
         </div>
-        <div>
-          <label>Content:</label>
-          <input type="text" name="content" value={newTodo.content} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label>Deadline:</label>
-          <input type="date" name="deadline" value={dateInString} onChange={handleInputChange} />
-        </div>
-        <button type="submit">{mode === 'create' ? 'Add Todo' : 'Update Todo'}</button>
+
+        <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#1679AB', marginTop: '5%' }}>
+          {mode === 'create' ? 'Add Task' : 'Update Task'}
+        </Button>
+        {mode !== 'create' ? (
+          <Button type="submit" onClick={handleDelete} variant="contained" color="secondary">
+            Delete
+          </Button>
+        ) : null}
       </form>
-      <button type="submit" onClick={handleDelete}>Delete Todo</button>
     </>
   );
 };

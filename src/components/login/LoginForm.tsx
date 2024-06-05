@@ -14,8 +14,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(username, password)
-
     const response = await fetch('/api/LoginApi', {
       method: 'POST',
       headers: {

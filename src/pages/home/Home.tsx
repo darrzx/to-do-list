@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import TodoList from '@/components/home/TodoList';
 import useTodos from '@/hooks/UseTodos';
+import TodoList from '@/components/home/TodoList';
 import TodoForm from '@/components/home/TodoForm';
+import TodoDetail from '@/components/home/TodoDetail';
 import { Todo } from '@/models/Todo';
+import { useAuth } from '@/contexts/AuthContext';
+import styles from '@/styles/Home.module.css';
 
 const Home = () => {
   const { todos, loading } = useTodos();
-  const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
+  const [currentTodo, setCurrentTodo] = useState<Todo>({
+    id: 0,
+    title: '',
+    content: '',
+    deadline: new Date()
+  });
+  const { user } = useAuth();
 
   const handleCreateTodo = async (newTodo: { title: string; content: string; deadline: Date }) => {
     try {
@@ -76,17 +85,43 @@ const Home = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <TodoList todos={todos} onTodoClick={handleTodoClick} />
-      <h2>{currentTodo ? 'Update Todo' : 'Add New Todo'}</h2>
-      <TodoForm 
-        onCreateTodo={handleCreateTodo} 
-        onUpdateTodo={handleUpdateTodo} 
-        onDeleteTodo={handleDeleteTodo}
-        mode={currentTodo ? 'update' : 'create'} 
-        existingTodo={currentTodo} 
-      />
+    <div className={styles.home_container}>
+      <div className={styles.home_navbar_container}>
+        {user ?  (
+          <h1>Welcome, { user?.username }!</h1>
+        ) : (
+          <h1>Welcome, User!</h1>
+        )}
+      </div>
+      <div className={styles.home_content_container}>
+        
+        <div className={styles.home_content_todo_list}>
+          <h2>Tasks</h2>  
+          <TodoList todos={todos} onTodoClick={handleTodoClick} />
+        </div>
+
+        <div className={styles.home_content_todo_detail}>
+          <h2>Detail</h2>  
+          <div className={styles.home_content_todo_detail_content_container}>
+            {currentTodo.id ? (
+              <TodoDetail key={currentTodo.id} todo={currentTodo} />
+            ) : (
+              <p className={styles.home_content_todo_detail_empty}>Click the task first.</p>
+            )}
+          </div>
+        </div>
+        
+        <div className={styles.home_content_todo_form}> 
+          <h2>{currentTodo.id ? 'Edit Task' : 'Add New Task'}</h2>
+          <TodoForm 
+            onCreateTodo={handleCreateTodo} 
+            onUpdateTodo={handleUpdateTodo} 
+            onDeleteTodo={handleDeleteTodo}
+            mode={currentTodo.id ? 'update' : 'create'} 
+            existingTodo={currentTodo} 
+          /> 
+        </div>
+      </div>
     </div>
   );
 };

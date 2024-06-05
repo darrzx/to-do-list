@@ -1,16 +1,13 @@
 "use client";
-import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginForm from '@/components/login/LoginForm';
 import Router from 'next/router';
 import styles from '@/styles/Login.module.css';
 
 const Login = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = () => {
-    setLoggedIn(true);
     Router.push('/home/Home');  
   };
 
