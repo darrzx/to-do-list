@@ -4,11 +4,11 @@ import styles from '@/styles/Login.module.css';
 import { Button, TextField } from '@material-ui/core';
 
 interface LoginFormProps {
-    onLogin: (username: string, password: string) => void;
+    onLogin: (email: string, password: string) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
@@ -21,13 +21,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     });
 
     if (response.ok) {
+      const data = await response.json();
+      const currUsername = data.currUsername;
       localStorage.clear();
-      localStorage.setItem("username", username);
-      onLogin(username, password);
+      localStorage.setItem("username", currUsername);
+      onLogin(email, password);
     } else {
       setError(true);
       console.error('Login failed');
@@ -39,10 +41,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <TextField 
         required 
         type='text' 
-        id="username" 
-        label="Username" 
-        value={username}
-        onChange={(e) => setUsername(e.target.value)} />
+        id="email" 
+        label="Email" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)} />
 
       <TextField 
         required 

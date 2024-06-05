@@ -19,9 +19,8 @@ const useTodos = () => {
             throw new Error('Response error');
         }
 
-        
         const data = await response.json();
-        setTodos(data.results);
+        setTodos(data.fetchedData);
       } catch (error) {
         console.error('Error fetching todos:', error);
       } finally {

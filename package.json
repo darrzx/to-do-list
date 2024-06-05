@@ -19,6 +19,7 @@
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "encrypt-storage": "^2.13.2",
+    "firebase": "^10.12.2",
     "mysql": "^2.18.1",
     "next": "14.2.3",
     "react": "^18",

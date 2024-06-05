@@ -1,31 +1,23 @@
-import connectDB from '@/utils/db';
+// import connectDB from '@/utils/db';
+import { db } from '@/utils/db';
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function getTodos(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const connection = connectDB();
+      const collectionRef = collection(db, 'todo');
+      const querySnapshot = await getDocs(collectionRef);
 
-      connection.query(
-        `SELECT * FROM todo`,
-        (error, results) => {
-          if (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Database error' });
-            return;
-          }
-
-          if (results.length > 0) {
-            res.status(200).json({ results });
-          } else {
-            res.status(401).json({ error: 'Invalid credentials' });
-          }
-        }
-      );
-
-      connection.end();
+        const fetchedData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          deadline : doc.data().deadline,
+        }));
+        res.status(200).json({ fetchedData });
     } catch (error) {
       console.error('Error:', error);
-      res.status(500).json({ error: 'Database error' });
+      res.status(401).json({ error: 'Database error' });
     }
 }
 
@@ -33,15 +25,8 @@ export async function createTodo(req: NextApiRequest, res: NextApiResponse) {
     const { title, content, deadline } = req.body;
 
     try {
-      const connection = connectDB();
-
-      const query = `
-        INSERT INTO todo (title, content, deadline) 
-        VALUES (?, ?, ?)`;
-      const values = [title, content, deadline];
-
-      await connection.query(query, values);
-      connection.end();
+      const collectionRef = collection(db, "todo");
+      await setDoc(doc(collectionRef), { title: title, content: content, deadline: deadline });
 
       res.status(200).json({ message: 'Todo created successfully' });
     } catch (error) {
@@ -54,13 +39,8 @@ export async function updateTodo(req: NextApiRequest, res: NextApiResponse) {
   const { id, title, content, deadline } = req.body;
 
   try {
-    const connection = connectDB();
-
-    const query =  'UPDATE todo SET title = ?, content = ?, deadline = ? WHERE id = ?';
-    const values = [title, content, deadline, id];
-
-    await connection.query(query, values);
-    connection.end();
+    const collectionRef = doc(db, 'todo', id);
+    await updateDoc(collectionRef, { title: title, content: content, deadline: deadline });
 
     res.status(200).json({ message: 'Todo updated successfully' });
   } catch (error) {
@@ -73,13 +53,8 @@ export async function deleteTodo(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
 
   try {
-    const connection = connectDB();
-
-    const query =  'DELETE FROM todo WHERE id = ?';
-    const values = id;
-
-    await connection.query(query, values);
-    connection.end();
+    const collectionRef = doc(db, 'todo', id);
+    await deleteDoc(collectionRef);
 
     res.status(200).json({ message: 'Todo deleted successfully' });
   } catch (error) {
