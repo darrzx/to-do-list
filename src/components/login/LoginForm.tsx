@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from 'react';
+import styles from '@/styles/Login.module.css';
+import { Button, TextField } from '@material-ui/core';
 
 interface LoginFormProps {
     onLogin: (username: string, password: string) => void;
@@ -11,6 +13,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log(username, password)
 
     const response = await fetch('/api/LoginApi', {
       method: 'POST',
@@ -28,20 +32,26 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
+    <form onSubmit={handleSubmit} className={styles.login_form}>
+      <TextField 
+        required 
+        type='text' 
+        id="username" 
+        label="Username" 
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
+        onChange={(e) => setUsername(e.target.value)} />
+
+      <TextField 
+        required 
+        type='password' 
+        id="password" 
+        label="Password" 
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
+        onChange={(e) => setPassword(e.target.value)} />
+
+      <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#1679AB', marginTop: '5%' }}>
+        Sign In
+      </Button>
     </form>
   );
 };
