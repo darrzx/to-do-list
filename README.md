@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Make sure that Node.js >= 18
+
 First, install dependencies for website:
 
 ```bash
