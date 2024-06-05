@@ -66,7 +66,6 @@ const Home = () => {
         },
         body: JSON.stringify(deletedTodo)
       });
-      console.log(response);
 
       if (response.ok) {
         window.location.reload();
