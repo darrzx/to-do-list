@@ -12,7 +12,7 @@ export async function getTodos(req: NextApiRequest, res: NextApiResponse) {
           id: doc.id,
           title: doc.data().title,
           content: doc.data().content,
-          deadline : doc.data().deadline,
+          deadline: doc.data().deadline,
         }));
         res.status(200).json({ fetchedData });
     } catch (error) {
