@@ -23,6 +23,7 @@ const Login = () => {
         </div>
       </div>
       <div className={styles.login_form_container}>
+        <h1 className={styles.login_form_title}>Sign In!</h1>
         <LoginForm onLogin={(username, password) => {
             login(username, password);
             handleLogin();
