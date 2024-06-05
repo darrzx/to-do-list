@@ -25,6 +25,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     });
 
     if (response.ok) {
+      localStorage.clear();
+      localStorage.setItem("username", username);
       onLogin(username, password);
     } else {
       setError(true);

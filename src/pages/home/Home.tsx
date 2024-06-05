@@ -82,16 +82,12 @@ const Home = () => {
     setCurrentTodo(todo);
   };
 
-  useEffect(() => {
-    console.log('User state changed:', user?.username);
-  }, [user]);
-
   if (loading) return <p>Loading...</p>;
 
   return (
     <div className={styles.home_container}>
       <div className={styles.home_navbar_container}>
-        <h1>Welcome, {user?.username || 'User'}!</h1>
+        <h1>Welcome, {localStorage.getItem("username") || 'User'}!</h1>
       </div>
       <div className={styles.home_content_container}>
         
