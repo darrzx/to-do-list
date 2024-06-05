@@ -33,16 +33,16 @@
 }
 
 .home_content_todo_list {
-    width: 27%;
+    width: 22%;
     overflow-y: auto;
 }
 
 .home_content_todo_detail {
-    width: 32%;
+    width: 44%;
 }
 
 .home_content_todo_form {
-    width: 32%;
+    width: 26%;
 }
 
 .home_content_todo_item {
@@ -54,6 +54,17 @@
     transition: background-color 0.2s;
 }
 
+.home_content_todo_item_clicked {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px 25px;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: #1679AB;
+    color: white;
+}
+
 .home_content_todo_item:hover {
   background-color: #1679AB;
   color: white;
@@ -63,14 +74,7 @@
     display: flex;
     height: 100%;
     width: 100%;
-}
-
-.home_content_todo_detail_content {
-    display: flex;
-    flex-direction: column;
-    margin: 5% 2%;
-    height: 100%;
-    width: 100%;
+    margin-top: 2.5%;
 }
 
 .home_content_todo_detail_empty {

@@ -10,9 +10,11 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(false);
 
     const response = await fetch('/api/LoginApi', {
       method: 'POST',
@@ -25,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     if (response.ok) {
       onLogin(username, password);
     } else {
+      setError(true);
       console.error('Login failed');
     }
   };
@@ -46,6 +49,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         label="Password" 
         value={password}
         onChange={(e) => setPassword(e.target.value)} />
+
+      {error && <p className={styles.error}>Invalid credentials!</p>}
 
       <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#1679AB', marginTop: '5%' }}>
         Sign In

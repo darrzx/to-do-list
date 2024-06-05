@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useTodos from '@/hooks/UseTodos';
 import TodoList from '@/components/home/TodoList';
 import TodoForm from '@/components/home/TodoForm';
@@ -82,16 +82,16 @@ const Home = () => {
     setCurrentTodo(todo);
   };
 
+  useEffect(() => {
+    console.log('User state changed:', user?.username);
+  }, [user]);
+
   if (loading) return <p>Loading...</p>;
 
   return (
     <div className={styles.home_container}>
       <div className={styles.home_navbar_container}>
-        {user ?  (
-          <h1>Welcome, { user?.username }!</h1>
-        ) : (
-          <h1>Welcome, User!</h1>
-        )}
+        <h1>Welcome, {user?.username || 'User'}!</h1>
       </div>
       <div className={styles.home_content_container}>
         

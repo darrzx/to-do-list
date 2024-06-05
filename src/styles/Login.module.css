@@ -35,10 +35,16 @@
     color: #0a5d87;
 }
 
-
 .login_form {
     display: flex;
     flex-direction: column;
     width: 55%;
     gap: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
 }
