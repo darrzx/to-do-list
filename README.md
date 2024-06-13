@@ -27,8 +27,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## Deploy on Vercel
+<!-- ## Deploy on Vercel
 
 You can open the application that has been deployed by clicking the following link : 
-[https://to-do-list-darr.vercel.app/](https://to-do-list-darr.vercel.app/)
+[https://to-do-list-darr.vercel.app/](https://to-do-list-darr.vercel.app/) -->
 
